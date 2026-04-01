@@ -9,6 +9,9 @@
     "types/**/*",
     "schema/**/*"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsdown",
     "test": "node bin/utils.js"
