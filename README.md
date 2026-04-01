@@ -3,9 +3,9 @@
 
 ## 使用
 ```bash
-pnpm add -D @latedream/moekoe-plugin-utils
+pnpm add -D @latedream/moekoe-plugin-utils@alpha
 # 或者全局安装
-pnpm add -g @latedream/moekoe-plugin-utils
+pnpm add -g @latedream/moekoe-plugin-utils@alpha
 ```
 
 ```log
