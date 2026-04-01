@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "晚梦的 MoeKoe Music 插件开发工具配置文件",
+  "type": "object",
+  "properties": {
+    "manifest": {
+      "description": "生成清单配置",
+      "type": "object",
+      "properties": {
+        "outpath": {
+          "description": "清单输出路径\n设为 false 则不输出清单",
+          "anyOf": [
+            {"type": "string"},
+            {"const": false}
+          ],
+          "default": "manifest.json"
+        }
+      },
+      "additionalProperties": false
+    },
+    "meta": {
+      "description": "插件元数据，用于生成清单",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "插件名称，留空则使用 `package.json` 中的 `name`",
+          "type": "string"
+        },
+        "id": {
+          "description": "插件 ID，留空则使用 `package.json` 中的 `name`",
+          "type": "string"
+        },
+        "description": {
+          "description": "插件描述，留空则使用 `package.json` 中的 `description`",
+          "type": "string"
+        },
+        "version": {
+          "description": "插件版本，留空则使用 `package.json` 中的 `version`",
+          "type": "string",
+          "pattern": "^\\d\\.\\d\\.\\d(-.+\\.\\d)?$"
+        },
+        "min_moekoe_version": {
+          "description": "插件最低支持的 MoeKoe Music 版本",
+          "type": "string",
+          "pattern": "^\\d\\.\\d\\.\\d(-.+\\.\\d)?$"
+        },
+        "author": {
+          "description": "插件作者，留空则使用 `package.json` 中的 `author`",
+          "anyOf": [
+            {"type": "string"},
+            {
+              "type": "object",
+              "properties": {
+                "name": {"description": "作者名字", "type": "string"},
+                "url": {
+                  "description": "作者主页",
+                  "type": "string",
+                  "pattern": "^https?://[\\w-]+\\.\\.[\\w-]+$"
+                },
+                "email": {
+                  "description": "作者邮箱",
+                  "type": "string",
+                  "pattern": "^\\w+@[\\w-]+\\.[\\w-]+$"
+                }
+              },
+              "required": ["name"],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "permissions": {
+          "description": "插件权限，参阅 [chrome.permissions](https://developer.chrome.google.cn/docs/extensions/reference/api/permissions)",
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "icons": {
+          "description": "插件图标",
+          "type": "object",
+          "patternProperties": {
+            "^\\d+$": {"description": "该尺寸的图标文件", "type": "string"}
+          },
+          "additionalProperties": false
+        },
+        "injects": {
+          "description": "插件的注入规则",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "matches": {
+                "description": "当地址栏匹配时注入，`<all_urls>` 用于匹配所有 URL",
+                "type": "array",
+                "items": {"type": "string"}
+              },
+              "js": {
+                "description": "注入的 JavaScript 脚本",
+                "type": "array",
+                "items": {"type": "string"}
+              },
+              "css": {
+                "description": "注入的 CSS 样式表",
+                "type": "array",
+                "items": {"type": "string"}
+              },
+              "exclude": {
+                "description": "排除的 URL",
+                "type": "array",
+                "items": {"type": "string"}
+              },
+              "run_at": {
+                "description": "注入时机",
+                "type": "string",
+                "enum": [
+                  "document_end",
+                  "document_idle",
+                  "document_start"
+                ]
+              },
+              "world": {
+                "description": "注入的运行环境",
+                "type": "string",
+                "enum": [
+                  "ISOLATED",
+                  "MAIN"
+                ]
+              }
+            },
+            "required": ["matches", "js"],
+            "additionalProperties": false
+          }
+        },
+        "csp": {
+          "description": "插件资源放行规则",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "matches": {
+                "description": "当地址栏匹配时放行，`<all_urls>` 用于匹配所有 URL",
+                "type": "array",
+                "items": {"type": "string"}
+              },
+              "resources": {
+                "description": "放行的资源",
+                "type": "array",
+                "items": {"type": "string"}
+              }
+            },
+            "required": ["matches", "resources"],
+            "additionalProperties": false
+          }
+        },
+        "generator": {
+          "description": "追加的生成器信息",
+          "anyOf": [
+            {"type": "string"},
+            {"type": "array", "items": {"type": "string"}}
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
