@@ -1,8 +1,29 @@
-import { assert, expect, test } from 'vitest';
+import { assert, test } from 'vitest';
 import { readFileSync } from 'fs';
 import { execSync } from 'child_process';
 
-test('gen-manifest', () => {
+test('gen-manifest-by-file', () => {
+	const input = [
+		'--config',
+		'test/test-config.json',
+		'--clean'
+	];
+
+	execSync(`node bin/utils.js gen-manifest ${input.join(' ')}`);
+	const output = readFileSync('./manifest.json', 'utf-8');
+	assert.deepNestedInclude(JSON.parse(output), {
+		name: 'test',
+		version: '2.3.3',
+		action: {
+			default_title: 'test',
+			default_popup: 'popup.html',
+			default_icon: null
+		}
+	});
+});
+
+
+test('gen-manifest-by-inline', () => {
 	const input = [
 		'--name',
 		'test-plugin',
@@ -11,7 +32,8 @@ test('gen-manifest', () => {
 		'--add',
 		'{\\"test\\":0}',
 		'--author',
-		'晚梦'
+		'晚梦',
+		'--clean'
 	];
 
 	execSync(`node bin/utils.js gen-manifest ${input.join(' ')}`);

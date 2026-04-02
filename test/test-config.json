@@ -1,0 +1,10 @@
+{
+  "$schema": "../schema/lkp_utils.json",
+  "meta": {
+    "name": "test",
+    "version": "2.3.3",
+    "popup": {
+      "html": "popup.html"
+    }
+  }
+}
