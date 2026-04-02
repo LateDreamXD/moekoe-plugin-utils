@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "moekoe": true,
+  "minversion": "%minversion%",
+  "name": "%name%",
+  "plugin_id": "%plugin_id%",
+  "version": "%version%",
+  "description": "%description%",
+  "permissions": [],
+  "author": "%author%",
+  "content_scripts": [],
+  "icons": {},
+  "web_accessible_resources": [],
+  "action": {},
+  "background": {},
+  "metadata": {
+    "generator": []
+  }
+}
