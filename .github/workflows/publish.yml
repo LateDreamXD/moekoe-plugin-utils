@@ -27,5 +27,14 @@ jobs:
       - name: test
         run: pnpm run test
       - name: publish
-        # https://github.com/pnpm/pnpm/issues/5894
+        if: ${{ !contains(github.ref, 'alpha') && !contains(github.ref, 'beta') && !contains(github.ref, 'rc') }}
         run: pnpm publish --no-git-checks
+      - name: publish (alpha)
+        if: ${{ contains(github.ref, 'alpha') }}
+        run: pnpm publish --no-git-checks --tag alpha
+      - name: publish (beta)
+        if: ${{ contains(github.ref, 'beta') }}
+        run: pnpm publish --no-git-checks --tag beta
+      - name: publish (rc)
+        if: ${{ contains(github.ref, 'rc') }}
+        run: pnpm publish --no-git-checks --tag rc
