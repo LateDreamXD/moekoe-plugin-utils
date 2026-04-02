@@ -7,9 +7,6 @@ export default defineConfig({
 	deps: {
 		skipNodeModulesBundle: true
 	},
-	banner: {
-		js: '#!/usr/bin/env node'
-	},
 	hash: false,
 	fixedExtension: false,
 	format: 'esm',

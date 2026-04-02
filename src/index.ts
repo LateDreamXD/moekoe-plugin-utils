@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { cac } from 'cac';
 import logger from './logger';
 import loadConfig from './load-config';
