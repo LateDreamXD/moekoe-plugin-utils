@@ -14,7 +14,7 @@
   },
   "scripts": {
     "build": "tsdown",
-    "test": "node bin/utils.js"
+    "test": "vitest"
   },
   "author": {
     "name": "晚梦",
@@ -33,7 +33,8 @@
     "cac": "^7.0.0"
   },
   "devDependencies": {
-    "tsdown": "^0.21.7"
+    "tsdown": "^0.21.7",
+    "vitest": "^4.1.2"
   },
   "bin": {
     "utils": "./bin/utils.js"

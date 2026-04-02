@@ -24,6 +24,8 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: build
         run: pnpm run build
+      - name: test
+        run: pnpm run test
       - name: publish
         # https://github.com/pnpm/pnpm/issues/5894
         run: pnpm publish --no-git-checks
