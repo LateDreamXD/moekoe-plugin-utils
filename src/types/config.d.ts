@@ -1,5 +1,6 @@
 type UserConfig = {
 	manifest?: {
+		clean?: boolean;
 		outpath?: string | false;
 	};
 	meta?: {

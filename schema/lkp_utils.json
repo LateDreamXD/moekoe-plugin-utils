@@ -7,6 +7,11 @@
       "description": "生成清单配置",
       "type": "object",
       "properties": {
+        "clean": {
+          "description": "自动清理旧的插件清单",
+          "type": "boolean",
+          "default": false
+        },
         "outpath": {
           "description": "清单输出路径\n设为 false 则不输出清单",
           "anyOf": [
@@ -27,7 +32,7 @@
           "type": "string"
         },
         "id": {
-          "description": "插件 ID，留空则使用 `package.json` 中的 `name`",
+          "description": "插件 ID，留空则使用 chrome 自动生成的 ID",
           "type": "string"
         },
         "description": {
@@ -168,7 +173,7 @@
             "icon": {"description": "弹窗图标", "type": "string"},
             "html": {"description": "弹窗 HTML 文件", "type": "string"}
           },
-          "required": ["title", "html"],
+          "required": ["html"],
           "additionalProperties": false
         },
         "additional": {
