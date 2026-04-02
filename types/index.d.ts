@@ -2,10 +2,10 @@ import { ExposedElectronAPI, MoekoeElectronAPI } from './preload';
 
 declare global {
 	const electron: ExposedElectronAPI;
-	const electronApi: MoekoeElectronAPI;
+	const electronAPI: MoekoeElectronAPI;
 	interface Window {
 		readonly electron: ExposedElectronAPI;
-		readonly electronApi: MoekoeElectronAPI;
+		readonly electronAPI: MoekoeElectronAPI;
 	}
 }
 
