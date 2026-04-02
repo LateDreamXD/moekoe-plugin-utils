@@ -26,6 +26,26 @@ export default {
 				template.plugin_id = config.meta?.id || pkg.name || '';
 				template.version = config.meta?.version || pkg.version || '';
 				template.web_accessible_resources = config.meta?.csp || [];
+
+				if(config.meta?.popup) template.action = {
+					default_title: config.meta?.popup.title,
+					default_icon: config.meta?.popup.icon || null,
+					default_popup: config.meta?.popup.html,
+				}
+
+				if(config.meta?.background) {
+					template.background =
+					typeof config.meta.background === 'string'?
+						{ service_worker: config.meta.background }:
+						{ service_worker: config.meta?.background.script };
+					
+					if(typeof config.meta.background !== 'string' && config.meta?.background.type)
+						(template.background as any).type = config.meta?.background.type;
+				}
+
+				if(config.meta?.additional)
+					Object.assign(template, config.meta?.additional);
+
 				template.metadata = {
 					generator: [`${name}@${version}`]
 				};

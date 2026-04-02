@@ -150,6 +150,32 @@
             "additionalProperties": false
           }
         },
+        "background": {
+          "description": "插件的后台脚本",
+          "anyOf": [
+            {"type": "string"},
+            {"type": "object", "properties": {
+              "script": {"type": "string"},
+              "type": {"type": "string", "const": "module"}
+            }, "required": ["script"], "additionalProperties": false}
+          ]
+        },
+        "popup": {
+          "description": "插件的弹窗",
+          "type": "object",
+          "properties": {
+            "title": {"description": "弹窗标题", "type": "string"},
+            "icon": {"description": "弹窗图标", "type": "string"},
+            "html": {"description": "弹窗 HTML 文件", "type": "string"}
+          },
+          "required": ["title", "html"],
+          "additionalProperties": false
+        },
+        "additional": {
+          "description": "额外项目，将被直接添加到清单中",
+          "type": "object",
+          "additionalProperties": true
+        },
         "generator": {
           "description": "追加的生成器信息",
           "anyOf": [

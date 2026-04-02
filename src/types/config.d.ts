@@ -25,6 +25,16 @@ type UserConfig = {
 			matches: string[];
 			resources: string[];
 		}[] | [];
+		background?: string | {
+			script: string;
+			type?: string;
+		};
+		popup?: {
+			title: string;
+			icon?: string;
+			html: string;
+		};
+		additional?: Record<string, any> | {};
 		generator?: string | string[] | [];
 	}
 }
