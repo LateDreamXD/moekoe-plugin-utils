@@ -1,7 +1,7 @@
 {
   "name": "@latedream/moekoe-plugin-utils",
   "type": "module",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-beta.1",
   "description": "晚梦的 MoeKoe Music 插件开发工具",
   "license": "MIT",
   "files": [
