@@ -4,9 +4,24 @@ import { readFileSync, writeFileSync } from 'fs';
 const { name, version } = await import('@pkg');
 const template = (await import('./template/manifest.json')).default;
 
+function parseInput(input: string) {
+	try { return JSON.parse(input); }
+	catch { return input; }
+}
+
 export default {
 	register(ctx: UtilsCtx, cli: import('cac').CAC) {
-		cli.command('gen-manifest [outputFilePath]', '生成 manifest.json').action(
+		cli.command('gen-manifest [outputFilePath]', '生成 manifest.json')
+		.option('-a, --author <author>', '插件作者').option('-I, --injects <injects>', '插件注入规则')
+		.option('-d, --description <description>', '插件描述').option('-ic, --icons <icons>', '插件图标')
+		.option('-m, --min-moekoe-ver <minMoekoeVer>', '插件最低支持的 MoeKoe Music 版本')
+		.option('-n, --name <name>', '插件名称').option('-p, --permissions <permissions>', '插件权限')
+		.option('-V, --ver <version>', '插件版本').option('-i, --id <pluginID>', '插件 ID')
+		.option('-c, --csp <csp>', '插件资源放行规则').option('-P, --popup <popup>', '插件弹窗')
+		.option('-b, --background <background>', '插件后台脚本')
+		.option('-A, --add, --additional <additional>', '清单额外项目')
+		.option('-g, --generator <generator>', '追加的生成器信息')
+		.action(
 			(outputFilePath?: string, args?: Record<string, any>) => {
 				ctx.logger.info('开始生成 manifest.json...');
 				const timer = Date.now();
@@ -16,24 +31,32 @@ export default {
 				const config = (ctx.config || { meta: {} }) as UserConfig;
 				const out = resolve(process.cwd(), outputFilePath || config.manifest?.outpath || 'manifest.json');
 
-				(template.author as any) = config.meta?.author || pkg.author || '';
-				template.content_scripts = config.meta?.injects || [];
-				template.description = config.meta?.description || pkg.description || '';
-				template.icons = config.meta?.icons || {};
-				template.minversion = config.meta?.min_moekoe_version || '';
-				template.name = config.meta?.name || pkg.name || '';
-				template.permissions = config.meta?.permissions || [];
-				template.plugin_id = config.meta?.id || pkg.name || '';
-				template.version = config.meta?.version || pkg.version || '';
-				template.web_accessible_resources = config.meta?.csp || [];
+				(template.author as any) = parseInput(args?.author) || config.meta?.author || pkg.author || '';
+				template.content_scripts = parseInput(args?.injects) || config.meta?.injects || [];
+				template.description = parseInput(args?.description) || config.meta?.description || pkg.description || '';
+				template.icons = parseInput(args?.icons) || config.meta?.icons || {};
+				template.minversion = parseInput(args?.minMoekoeVer) || config.meta?.min_moekoe_version || '';
+				template.name = parseInput(args?.name) || config.meta?.name || pkg.name || '';
+				template.permissions = parseInput(args?.permissions) || config.meta?.permissions || [];
+				template.plugin_id = parseInput(args?.id) || config.meta?.id || pkg.name || '';
+				template.version = parseInput(args?.ver) || config.meta?.version || pkg.version || '';
+				template.web_accessible_resources = parseInput(args?.csp) || config.meta?.csp || [];
 
-				if(config.meta?.popup) template.action = {
-					default_title: config.meta?.popup.title,
-					default_icon: config.meta?.popup.icon || null,
-					default_popup: config.meta?.popup.html,
+				if(args?.popup || config.meta?.popup) template.action = {
+					default_title: parseInput(args?.popup).title || config.meta?.popup.title,
+					default_icon: parseInput(args?.popup).icon || config.meta?.popup.icon || null,
+					default_popup: parseInput(args?.popup).html || config.meta?.popup.html,
 				}
 
-				if(config.meta?.background) {
+				if(args?.background) {
+					const background = parseInput(args?.background);
+					template.background = typeof background === 'string'?
+						{ service_worker: background }:
+						{ service_worker: background.script };
+
+					if(typeof background !== 'string' && background.type)
+						(template.background as any).type = background.type;
+				} else if(config.meta?.background) {
 					template.background =
 					typeof config.meta.background === 'string'?
 						{ service_worker: config.meta.background }:
@@ -43,14 +66,19 @@ export default {
 						(template.background as any).type = config.meta?.background.type;
 				}
 
-				if(config.meta?.additional)
-					Object.assign(template, config.meta?.additional);
+				if(args?.additional || config.meta?.additional)
+					Object.assign(template, parseInput(args?.additional) || config.meta?.additional);
 
 				template.metadata = {
 					generator: [`${name}@${version}`]
 				};
 				
-				if(config.meta?.generator) {
+				if(args?.generator) {
+					const generator = parseInput(args?.generator);
+					template.metadata.generator = typeof generator === 'string'?
+						[generator, ...template.metadata.generator]:
+						[...generator, ...template.metadata.generator];
+				} else if(config.meta?.generator) {
 					template.metadata.generator =
 						typeof config.meta.generator === 'string'?
 							[config.meta.generator, ...template.metadata.generator]:
