@@ -187,6 +187,10 @@
             {"type": "string"},
             {"type": "array", "items": {"type": "string"}}
           ]
+        },
+        "license": {
+          "description": "插件的许可证，留空则使用 package.json 中的许可证，若不存在则设为 `unspecified`",
+          "type": "string"
         }
       },
       "additionalProperties": false
