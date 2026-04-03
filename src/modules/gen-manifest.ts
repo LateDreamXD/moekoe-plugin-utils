@@ -20,6 +20,7 @@ export default {
 		.option('-c, --csp <csp>', '插件资源放行规则').option('-P, --popup <popup>', '插件弹窗')
 		.option('-b, --background <background>', '插件后台脚本')
 		.option('-A, --add, --additional <additional>', '清单额外项目')
+		.option('-l, --license <license>', '插件许可证')
 		.option('-g, --generator <generator>', '追加的生成器信息')
 		.option('-C, --clean', '自动清理旧的插件清单')
 		.option('-o, --output <outputFilePath>', '输出文件路径')
@@ -33,7 +34,7 @@ export default {
 				const config = (ctx.config || { meta: {} }) as UserConfig;
 				const out = resolve(process.cwd(), args?.output || config.manifest?.outpath || 'manifest.json');
 
-				if(existsSync(out) && (Object.keys(args).includes('clean') || config.manifest?.clean)) {
+				if(existsSync(out) && (Object.keys(args || {}).includes('clean') || config.manifest?.clean)) {
 					ctx.logger.info('清理旧的插件清单...');
 					unlinkSync(out);
 				}
@@ -50,9 +51,9 @@ export default {
 				template.web_accessible_resources = parseInput(args?.csp) || config.meta?.csp || [];
 
 				if(args?.popup || config.meta?.popup) template.action = {
-					default_title: parseInput(args?.popup)?.title || config.meta?.popup.title || template.name,
-					default_icon: parseInput(args?.popup)?.icon || config.meta?.popup.icon || null,
-					default_popup: parseInput(args?.popup)?.html || config.meta?.popup.html,
+					default_title: parseInput(args?.popup)?.title || config.meta?.popup?.title || template.name,
+					default_icon: parseInput(args?.popup)?.icon || config.meta?.popup?.icon || null,
+					default_popup: parseInput(args?.popup)?.html || config.meta?.popup?.html,
 				}
 
 				if(args?.background) {
@@ -77,6 +78,7 @@ export default {
 					Object.assign(template, parseInput(args?.additional) || config.meta?.additional);
 
 				template.metadata = {
+					license: parseInput(args?.license) || config.meta?.license || pkg?.license || 'unspecified',
 					generator: [`${name}@${version}`]
 				};
 				

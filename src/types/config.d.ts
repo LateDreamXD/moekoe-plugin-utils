@@ -36,6 +36,7 @@ type UserConfig = {
 			html: string;
 		};
 		additional?: Record<string, any> | {};
+		license?: string;
 		generator?: string | string[] | [];
 	}
 }
