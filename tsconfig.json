@@ -6,10 +6,12 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
 
-    "baseUrl": ".",
     "paths": {
       "@pkg": ["./package.json"]
-    }
+    },
+    "types": [
+      "node"
+    ]
   },
   "include": [
     "src/**/*"
