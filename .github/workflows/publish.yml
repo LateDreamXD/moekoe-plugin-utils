@@ -17,7 +17,7 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           cache: pnpm
-          node-version: 22
+          node-version: 24
       - name: update npm
         run: npm install -g npm@latest
       - name: install deps
@@ -28,13 +28,13 @@ jobs:
         run: pnpm run test
       - name: publish
         if: ${{ !contains(github.ref, 'alpha') && !contains(github.ref, 'beta') && !contains(github.ref, 'rc') }}
-        run: pnpm publish --no-git-checks
+        run: pnpm publish --no-git-checks --provenance
       - name: publish (alpha)
         if: ${{ contains(github.ref, 'alpha') }}
-        run: pnpm publish --no-git-checks --tag alpha
+        run: pnpm publish --no-git-checks --provenance --tag alpha
       - name: publish (beta)
         if: ${{ contains(github.ref, 'beta') }}
-        run: pnpm publish --no-git-checks --tag beta
+        run: pnpm publish --no-git-checks --provenance --tag beta
       - name: publish (rc)
         if: ${{ contains(github.ref, 'rc') }}
-        run: pnpm publish --no-git-checks --tag rc
+        run: pnpm publish --no-git-checks --provenance --tag rc
