@@ -28,17 +28,7 @@ jobs:
       - name: test
         run: pnpm run -C packages/utils test
       - name: publish
-        if: ${{ !contains(github.ref, 'alpha') && !contains(github.ref, 'beta') && !contains(github.ref, 'rc') }}
         run: pnpm publish --no-git-checks --provenance -C packages/utils
-      - name: publish (alpha)
-        if: ${{ contains(github.ref, 'alpha') }}
-        run: pnpm publish --no-git-checks --provenance --tag alpha -C packages/utils
-      - name: publish (beta)
-        if: ${{ contains(github.ref, 'beta') }}
-        run: pnpm publish --no-git-checks --provenance --tag beta -C packages/utils
-      - name: publish (rc)
-        if: ${{ contains(github.ref, 'rc') }}
-        run: pnpm publish --no-git-checks --provenance --tag rc -C packages/utils
 
   publish-types:
     if: ${{ github.event_name == 'workflow_dispatch' || contains(github.ref, 'types') }}
