@@ -1,3 +1,5 @@
+/// <reference types="electron" />
+
 import {
 	BaseReturnWithMessage,
 	BaseReturnWithError,
