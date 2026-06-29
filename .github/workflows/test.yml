@@ -3,7 +3,7 @@ name: test
 on:
   push:
     branches: [main]
-    paths-ignore: ['README.md', 'schema/**']
+    paths: ['packages/utils']
   pull_request:
     branches: [main]
 
@@ -18,8 +18,8 @@ jobs:
           cache: pnpm
           node-version: 22
       - name: install deps
-        run: pnpm install --frozen-lockfile
+        run: pnpm ci
       - name: build
-        run: pnpm run build
+        run: pnpm run -C packages/utils build
       - name: test
-        run: pnpm run test
+        run: pnpm run -C packages/utils test

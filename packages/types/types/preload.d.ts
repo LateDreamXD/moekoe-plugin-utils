@@ -1,11 +1,11 @@
-/// <reference types="./electron.d.ts" />
 import {
 	BaseReturnWithMessage,
 	BaseReturnWithError,
 	ExtensionInfo,
 	RawExtensionInfo,
 	ScannedRawExtensionInfo,
-	ExtensionManifest
+	ExtensionManifest,
+	BaseReturn
 } from './defined';
 
 interface ExposedElectronAPI {
@@ -69,12 +69,41 @@ interface MoekoeElectronAPI {
 	) => Promise<BaseReturnWithMessage & {
 		extension?: { id: string; name: string; };
 	}>,
+	/**
+	 * 用户授权或取消授权某个插件声明的本地程序。
+	 * @description 管理页调用
+	 */
+	setNativeHostAuthorization: (extensionId: string, hostId: string, authorized: boolean) => Promise<BaseReturnWithMessage>,
+	/** 本地程序接口 */
+	nativeHost: {
+		/**
+		 * 查询自己的本地程序状态。
+		 * @description 插件 bridge/popup 调用
+		 */
+		getStatus: (hostId: string) => Promise<BaseReturnWithMessage>;
+		/**
+		 * 发送业务消息到本地程序 stdin。
+		 * @description 插件 bridge/popup 调用
+		 */
+		send: (hostId: string, payload: any) => Promise<BaseReturnWithMessage>;
+		/**
+		 * 本地程序消息监听器
+		 * @returns 用于取消该监听器的函数
+		 */
+		onMessage: (listener: (payload: any) => any) => Promise<() => void>;
+	}
+	/** 开始下载更新 */
+	startUpdateDownload: () => Promise<BaseReturn | BaseReturnWithError & { reason: 'error' }>,
 	/** 打开选择文件对话框 */
 	showOpenDialog: (options: Electron.OpenDialogOptions) => Promise<BaseReturnWithMessage & {
 		filePath?: string;
 	}>,
 	/** 打开 MV 播放窗口 */
 	openMvWindow: (url: string) => Promise<boolean>,
+	/** 打开日志目录 */
+	openLogPath: () => Promise<BaseReturn | { error: string | Error }>,
+	/** 导出脱敏日志 */
+	exportLog: () => Promise<{ canceled: boolean, filePath?: string } | { error: Error }>
 }
 
 export {

@@ -2,11 +2,12 @@ name: Publish
 
 on:
   push:
-    tags: ['v*']
+    tags: ['types-v*', 'utils-v*']
   workflow_dispatch:
 
 jobs:
-  publish:
+  publish-utils:
+    if: ${{ contains(github.ref, 'utils') }}
     permissions:
       id-token: write  # Required for OIDC
       contents: read
@@ -21,20 +22,37 @@ jobs:
       - name: update npm
         run: npm install -g npm@latest
       - name: install deps
-        run: pnpm install --frozen-lockfile
+        run: pnpm ci
       - name: build
-        run: pnpm run build
+        run: pnpm run -C packages/utils build
       - name: test
-        run: pnpm run test
+        run: pnpm run -C packages/utils test
       - name: publish
         if: ${{ !contains(github.ref, 'alpha') && !contains(github.ref, 'beta') && !contains(github.ref, 'rc') }}
-        run: pnpm publish --no-git-checks --provenance
+        run: pnpm publish --no-git-checks --provenance -C packages/utils
       - name: publish (alpha)
         if: ${{ contains(github.ref, 'alpha') }}
-        run: pnpm publish --no-git-checks --provenance --tag alpha
+        run: pnpm publish --no-git-checks --provenance --tag alpha -C packages/utils
       - name: publish (beta)
         if: ${{ contains(github.ref, 'beta') }}
-        run: pnpm publish --no-git-checks --provenance --tag beta
+        run: pnpm publish --no-git-checks --provenance --tag beta -C packages/utils
       - name: publish (rc)
         if: ${{ contains(github.ref, 'rc') }}
-        run: pnpm publish --no-git-checks --provenance --tag rc
+        run: pnpm publish --no-git-checks --provenance --tag rc -C packages/utils
+
+  publish-types:
+    permissions:
+      id-token: write  # Required for OIDC
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v6
+        with:
+          cache: pnpm
+          node-version: 24
+      - name: update npm
+        run: npm install -g npm@latest
+      - name: publish
+        run: pnpm publish --no-git-checks --provenance -C packages/types

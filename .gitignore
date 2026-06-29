@@ -1,4 +1,4 @@
-bin/
 node_modules/
 
-/manifest.json
+packages/utils/bin
+packages/utils/manifest.json

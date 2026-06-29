@@ -2,11 +2,14 @@
 import { cac } from 'cac';
 import logger from './logger';
 import loadConfig from './load-config';
+import init from './modules/init';
 import genManifest from './modules/gen-manifest';
 
-const { name, version } = await import('@pkg');
+import { name, version } from '@pkg';
+
 const cli = cac('utils');
 const ctx: UtilsCtx = {
+	cli,
 	config: {},
 	logger,
 	loadConfig(path?: string) {
@@ -18,7 +21,8 @@ cli.help();
 cli.version(version);
 cli.option('-c, --config <configFilePath>', '配置文件路径，支持 `package.json` 或 `lkp_utils.json`');
 
-genManifest.register(ctx, cli);
+init.register(ctx);
+genManifest.register(ctx);
 
 console.log(`\n\t\t\x1b[1m\x1b[34m${name}\x1b[0m v\x1b[32m${version}\x1b[0m\n`);
 

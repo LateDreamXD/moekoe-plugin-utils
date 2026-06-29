@@ -1,0 +1,20 @@
+{
+  "$schema": "node_modules/@latedream/moekoe-plugin-utils/schema/lkp_utils.json",
+  "manifest": {
+    "outpath": "dist/manifest.json"
+  },
+  "meta": {
+    "name": "",
+    "id": "",
+    "min_moekoe_version": "",
+    "description": "",
+    "permissions": ["scripting"],
+    "injects": [
+      {
+        "matches": ["<all_urls>"],
+        "js": [""]
+      }
+    ],
+    "icons": {}
+  }
+}

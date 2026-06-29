@@ -42,7 +42,8 @@ type UserConfig = {
 }
 
 type UtilsCtx = {
-	config: UserConfig;
+	cli: import('cac').CAC;
+	config?: UserConfig | null;
 	logger: typeof import('../logger').default;
 	loadConfig: Function;
 }

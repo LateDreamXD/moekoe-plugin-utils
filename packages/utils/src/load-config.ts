@@ -7,7 +7,7 @@ const supportedFiles = ['lkp_utils.json', 'package.json'];
 const readFile = (path: string) =>
  JSON.parse(readFileSync(path, 'utf-8'));
 
-const load = (path?: string): UserConfig => {
+const load = (path?: string): UserConfig | null => {
 	if(!path) {
 		let config: UserConfig;
 		const result = supportedFiles.some(file => {
@@ -20,7 +20,7 @@ const load = (path?: string): UserConfig => {
 			}
 		});
 		if(!result) logger.info('未找到支持的配置文件，将使用默认配置');
-		return config;
+		return null;
 	} else {
 		const isPackageJson = path.endsWith('package.json');
 		path = resolve(process.cwd(), path);

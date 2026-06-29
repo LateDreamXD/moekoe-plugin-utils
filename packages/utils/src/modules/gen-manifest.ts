@@ -1,8 +1,7 @@
 import { resolve } from 'path';
 import { existsSync, readFileSync, unlinkSync, writeFileSync } from 'fs';
-
-const { name, version } = await import('@pkg');
-const template = (await import('./template/manifest.json')).default;
+import { name, version } from '@pkg';
+import template from './template/manifest.json';
 
 function parseInput(input: string) {
 	try { return JSON.parse(input); }
@@ -10,7 +9,8 @@ function parseInput(input: string) {
 }
 
 export default {
-	register(ctx: UtilsCtx, cli: import('cac').CAC) {
+	register(ctx: UtilsCtx) {
+		const cli = ctx.cli;
 		cli.command('gen-manifest', '生成插件清单')
 		.option('-a, --author <author>', '插件作者').option('-I, --injects <injects>', '插件注入规则')
 		.option('-d, --description <description>', '插件描述').option('-ic, --icons <icons>', '插件图标')
@@ -69,7 +69,7 @@ export default {
 					typeof config.meta.background === 'string'?
 						{ service_worker: config.meta.background }:
 						{ service_worker: config.meta?.background.script };
-					
+
 					if(typeof config.meta.background !== 'string' && config.meta?.background.type)
 						(template.background as any).type = config.meta?.background.type;
 				}
@@ -81,7 +81,7 @@ export default {
 					license: parseInput(args?.license) || config.meta?.license || pkg?.license || 'unspecified',
 					generator: [`${name}@${version}`]
 				};
-				
+
 				if(args?.generator) {
 					const generator = parseInput(args?.generator);
 					template.metadata.generator = typeof generator === 'string'?

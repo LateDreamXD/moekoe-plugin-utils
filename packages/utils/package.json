@@ -1,0 +1,45 @@
+{
+  "name": "@latedream/moekoe-plugin-utils",
+  "type": "module",
+  "version": "1.0.0-rc.1",
+  "description": "晚梦的 MoeKoe Music 插件开发工具",
+  "license": "MIT",
+  "files": [
+    "bin/**/*",
+    "types/**/*",
+    "schema/**/*"
+  ],
+  "bin": {
+    "utils": "./bin/utils.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "test": "vitest"
+  },
+  "author": {
+    "name": "晚梦",
+    "url": "https://github.com/LateDreamXD"
+  },
+  "bugs": {
+    "url": "https://github.com/LateDreamXD/moekoe-plugin-utils/issues"
+  },
+  "homepage": "https://github.com/LateDreamXD/moekoe-plugin-utils#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LateDreamXD/moekoe-plugin-utils.git",
+    "directory": "packages/utils"
+  },
+  "dependencies": {
+    "cac": "^7.0.0"
+  },
+  "devDependencies": {
+    "tsdown": "^0.22.3",
+    "vitest": "^4.1.9"
+  },
+  "optionalDependencies": {
+    "@types/node": "^26.0.1"
+  }
+}

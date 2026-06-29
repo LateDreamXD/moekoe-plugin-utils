@@ -1,0 +1,36 @@
+{
+  "name": "@latedream/moekoe-types",
+  "version": "1.6.6",
+  "type": "module",
+  "license": "UNLICENSED",
+  "files": [
+    "src/**/*"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": {
+    "name": "晚梦",
+    "url": "https://github.com/LateDreamXD"
+  },
+  "bugs": {
+    "url": "https://github.com/LateDreamXD/moekoe-plugin-utils/issues"
+  },
+  "homepage": "https://github.com/LateDreamXD/moekoe-plugin-utils/blob/main/packages/types/README",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LateDreamXD/moekoe-plugin-utils.git",
+    "directory": "packages/types"
+  },
+  "dependencies": {
+    "electron": "^39.0.0"
+  },
+  "peerDependencies": {
+    "typescript": "*"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
+  }
+}
