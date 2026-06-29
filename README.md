@@ -3,21 +3,23 @@
 
 ## 使用
 ```bash
-pnpm add -D @latedream/moekoe-plugin-utils
+pnpm add -D @latedream/moekoe-plugin-utils@rc
 # 或者全局安装
-pnpm add -g @latedream/moekoe-plugin-utils
+pnpm add -g @latedream/moekoe-plugin-utils@rc
 ```
 
 ```log
-utils/1.0.0-alpha.1
+utils/1.0.0-rc.1
 
 Usage:
   $ utils <command> [options]
 
 Commands:
-  gen-manifest [outputFilePath]  生成 manifest.json
+  init          初始化配置文件
+  gen-manifest  生成插件清单
 
 For more info, run any command with the `--help` flag:
+  $ utils init --help
   $ utils gen-manifest --help
 
 Options:
@@ -29,7 +31,7 @@ Options:
 ## 配置文件
 工具会自动从 `package.json` 或 `lkp_utils.json` 中加载配置，也可以通过 `--config`(或`-c`) 选项指定配置文件路径。
 
-> [!NOTE]  
+> [!NOTE]
 > `lkp_utils.json` 的优先级高于 `package.json`。
 
 ```jsonc
