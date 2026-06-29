@@ -1,4 +1,4 @@
-import { ExposedElectronAPI, MoekoeElectronAPI } from './preload';
+import { ExposedElectronAPI, MoekoeElectronAPI } from './electron';
 
 declare global {
 	const electron: ExposedElectronAPI;
@@ -14,4 +14,4 @@ export {
 	MoekoeElectronAPI,
 }
 
-export * from './defined';
+export * from './electron/defined';

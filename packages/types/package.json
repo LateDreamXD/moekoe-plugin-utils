@@ -9,6 +9,7 @@
   "publishConfig": {
     "access": "public"
   },
+  "module": "./types/index.d.ts",
   "types": "./types/index.d.ts",
   "typings": "./types/index.d.ts",
   "author": {
