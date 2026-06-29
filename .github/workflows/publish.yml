@@ -7,7 +7,7 @@ on:
 
 jobs:
   publish-utils:
-    if: ${{ contains(github.ref, 'utils') }}
+    if: ${{ github.event_name == 'workflow_dispatch' || contains(github.ref, 'utils') }}
     permissions:
       id-token: write  # Required for OIDC
       contents: read
@@ -41,6 +41,7 @@ jobs:
         run: pnpm publish --no-git-checks --provenance --tag rc -C packages/utils
 
   publish-types:
+    if: ${{ github.event_name == 'workflow_dispatch' || contains(github.ref, 'types') }}
     permissions:
       id-token: write  # Required for OIDC
       contents: read
