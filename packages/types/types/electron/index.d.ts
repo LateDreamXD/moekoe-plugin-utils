@@ -13,6 +13,7 @@ import {
 interface ExposedElectronAPI {
 	ipcRenderer: {
 		send: Electron.IpcRenderer['send'];
+		invoke: Electron.IpcRenderer['invoke'];
 		on: Electron.IpcRenderer['on'];
 		once: Electron.IpcRenderer['once'];
 		removeListener: Electron.IpcRenderer['removeListener'];
