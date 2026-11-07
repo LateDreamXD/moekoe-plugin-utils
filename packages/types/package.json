@@ -1,6 +1,6 @@
 {
   "name": "@latedream/moekoe-types",
-  "version": "1.6.7",
+  "version": "1.7.2",
   "type": "module",
   "license": "UNLICENSED",
   "files": [
@@ -26,7 +26,7 @@
     "directory": "packages/types"
   },
   "dependencies": {
-    "electron": "^39.0.0"
+    "electron": "^42.11.18"
   },
   "peerDependencies": {
     "typescript": "*"
@@ -35,10 +35,5 @@
     "typescript": {
       "optional": true
     }
-  },
-  "pnpm": {
-    "neverBuiltDependencies": [
-      "electron"
-    ]
   }
 }

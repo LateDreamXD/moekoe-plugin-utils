@@ -10,10 +10,13 @@ pnpm add -D @latedream/moekoe-types
 ```ts
 // 修改 tsconfig.json
 {
-  "compilerOptions": {
-	// ...,
-    "types": ["@latedream/moekoe-types"]
-  }
+	"compilerOptions": {
+		// ...,
+		"types": [
+			// ...,
+			"@latedream/moekoe-types"
+		]
+	}
 }
 
 // 或者在任意 .d.ts 文件中添加下面任意一行

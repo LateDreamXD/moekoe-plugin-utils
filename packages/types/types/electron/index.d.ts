@@ -101,15 +101,69 @@ interface MoekoeElectronAPI {
 	showOpenDialog: (options: Electron.OpenDialogOptions) => Promise<BaseReturnWithMessage & {
 		filePath?: string;
 	}>,
-	/** 打开 MV 播放窗口 */
+	/**
+	 * 打开 MV 播放窗口
+	 * @since v1.5.7
+	 */
 	openMvWindow: (url: string) => Promise<boolean>,
-	/** 打开日志目录 */
+	/**
+	 * 打开日志目录
+	 * @since v1.6.3
+	 */
 	openLogPath: () => Promise<BaseReturn | { error: string | Error }>,
-	/** 导出脱敏日志 */
-	exportLog: () => Promise<{ canceled: boolean, filePath?: string } | { error: Error }>
+	/**
+	 * 导出脱敏日志
+	 * @since v1.6.3
+	 */
+	exportLog: () => Promise<{ canceled: boolean, filePath?: string } | { error: Error }>,
+	/**
+	 * 获取 API 服务终结点
+	 * @description 若 API 服务为“始终关闭”则始终返回 `null`
+	 * @since v1.7.2
+	 */
+	getApiModeUrl: () => Promise<{ http: string, ws: string } | null>
+}
+
+type KugouApiDevice = {
+	/** 设备名称，10 位随机大写字母或数字 */
+	dev: string,
+	/** 唯一标识符 */
+	uuid: string,
+	/**
+	 * MAC 地址
+	 * @default '02:00:00:00:00:00'
+	 */
+	mac: string,
+	/** MID */
+	mid: string,
+	/** WebGL 指纹 */
+	webgl: string
+}
+
+/** 请求载体 */
+type KugouApiReqPayload = {
+	/** 请求参数 */
+	params?: Record<string, any>,
+	/**
+	 * 身份验证 cookie
+	 * @description 优先使用 `headers.Authorization`
+	 */
+	cookie?: string | Record<string, string>,
+	/** 请求标头 */
+	headers?: HeadersInit
+}
+
+interface MoekoeKugouAPI {
+	/** 重置设备 */
+	generateNewDevice: () => Promise<BaseReturn & { message?: string, device?: KugouApiDevice }>,
+	/** 获取当前设备信息 */
+	getDevice: () => Promise<KugouApiDevice>,
+	/** 发起请求 */
+	request: (path: string, payload: KugouApiReqPayload) => Promise<any>
 }
 
 export {
 	ExposedElectronAPI,
 	MoekoeElectronAPI,
+	MoekoeKugouAPI
 }
